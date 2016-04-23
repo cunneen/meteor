@@ -87,6 +87,8 @@ export class CordovaBuilder {
       name: files.pathBasename(this.projectContext.projectDir),
       description: 'New Meteor Mobile App',
       author: 'A Meteor Developer',
+      'ios-CFBundleIdentifier': 'com.id' + this.projectContext.appIdentifier,
+      'android-packageName': 'com.id' + this.projectContext.appIdentifier,
       email: 'n/a',
       website: 'n/a',
       contentUrl: `http://localhost:${localServerPort}/`
@@ -226,6 +228,8 @@ export class CordovaBuilder {
       version: this.metadata.version,
       'android-versionCode': this.metadata.buildNumber,
       'ios-CFBundleVersion': this.metadata.buildNumber,
+      'android-packageName': this.metadata['android-packageName'],
+      'ios-CFBundleIdentifier': this.metadata['ios-CFBundleIdentifier'],
       xmlns: 'http://www.w3.org/ns/widgets',
       'xmlns:cdv': 'http://cordova.apache.org/ns/1.0'
     }, (value, key) => {
