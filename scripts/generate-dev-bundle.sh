@@ -43,6 +43,17 @@ downloadOfficialNode14() {
     curl "${METEOR_NODE_URL}" | tar zx --strip-components 1
 }
 
+# Unofficial ARM64 port of meteor's Nodejs 14.21.4
+downloadUnofficialNode14ARM() {
+    if [ $NODE_VERSION = "14.21.4" ]; then
+        METEOR_NODE_URL="https://objectstorage.ap-sydney-1.oraclecloud.com/p/5UUKqST_qxb8RxPU2NSvSL8FNrICOXbjR9B2y7XMkMbq-iHX7rjNHpSr_vgHs0-N/n/sdhg1j74w7mp/b/staticfiles.juto.com.au/o/node/v14.21.4/node-v14.21.4-linux-arm64.tar.gz"
+        echo "Downloading Node from ${METEOR_NODE_URL}" >&2
+        curl "${METEOR_NODE_URL}" | tar zx --strip-components 1
+    else
+        return 1
+    fi
+}
+
 downloadOfficialNode() {
     NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TGZ}"
     echo "Downloading Node from ${NODE_URL}" >&2
@@ -57,7 +68,13 @@ downloadReleaseCandidateNode() {
 
 # Try each strategy in the following order:
 extractNodeFromTarGz || downloadNodeFromS3 || \
-  downloadOfficialNode14 || downloadReleaseCandidateNode
+  downloadOfficialNode14 || downloadReleaseCandidateNode || \
+  downloadUnofficialNode14ARM
+
+if [ $? -ne 0 ]; then
+    echo "Failed to download Node" >&2
+    exit 1
+fi
 
 # On macOS, download MongoDB from mongodb.com. On Linux, download a custom build
 # that is compatible with current distributions. If a 32-bit Linux is used,
