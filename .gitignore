@@ -29,3 +29,6 @@ mongo-test-output
 
 # core packages shouldn't have .versions files
 packages/*/.versions
+
+# "history" vscode extension
+/.history/
