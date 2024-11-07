@@ -151,6 +151,16 @@ node "${CHECKOUT_DIR}/scripts/dev-bundle-server-package.js" > package.json
 # error if we do not help it by creating the .npm/_locks directory.
 mkdir -p "${DIR}/.npm/_locks"
 npm install
+if [ $? -ne 0 ]; then
+    # python >= v3.11 now causes node-gyp to crash when it encounters the source
+    #   code for npm 6.8.4 .
+    #   See https://github.com/nodejs/node-gyp/issues/2219
+    #
+    # We'll try patching the input python source and redo 'npm install'
+    FILE_TO_ATTEMPT_PATCH="${DIR}/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/gyp/input.py"
+    sed -E -i "s/build_file_path, 'rU'/build_file_path, 'r'/g" $FILE_TO_ATTEMPT_PATCH
+    npm install
+fi
 npm shrinkwrap
 
 mkdir -p "${DIR}/server-lib/node_modules"
