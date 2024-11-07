@@ -150,6 +150,8 @@ node "${CHECKOUT_DIR}/scripts/dev-bundle-server-package.js" > package.json
 # XXX For no apparent reason this npm install will fail with an EISDIR
 # error if we do not help it by creating the .npm/_locks directory.
 mkdir -p "${DIR}/.npm/_locks"
+
+trap "" 0  # restore normal exit on signal (SIGINT)
 npm install
 if [ $? -ne 0 ]; then
     # python >= v3.11 now causes node-gyp to crash when it encounters the source
@@ -157,10 +159,13 @@ if [ $? -ne 0 ]; then
     #   See https://github.com/nodejs/node-gyp/issues/2219
     #
     # We'll try patching the input python source and redo 'npm install'
+
+    trap - 0  # start trapping signals again
     FILE_TO_ATTEMPT_PATCH="${DIR}/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/gyp/input.py"
     sed -E -i "s/build_file_path, 'rU'/build_file_path, 'r'/g" $FILE_TO_ATTEMPT_PATCH
     npm install
 fi
+trap - 0  # start trapping signals again
 npm shrinkwrap
 
 mkdir -p "${DIR}/server-lib/node_modules"
