@@ -160,8 +160,11 @@ if [ $? -ne 0 ]; then
     #
     # We'll try patching the input python source and redo 'npm install'
 
+
     trap - SIGHUP SIGINT SIGQUIT SIGABRT  # start trapping signals again
     FILE_TO_ATTEMPT_PATCH="${DIR}/lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/gyp/input.py"
+    echo "Trying to patch $FILE_TO_ATTEMPT_PATCH"
+    
     sed -E -i "s/build_file_path, 'rU'/build_file_path, 'r'/g" $FILE_TO_ATTEMPT_PATCH
     npm install
 fi
