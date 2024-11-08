@@ -47,7 +47,7 @@ downloadUnofficialNode14ARM() {
     if [ $NODE_VERSION = "14.21.4" ]; then
         METEOR_NODE_URL="https://public.juto.com.au/node/v${NODE_VERSION}/${NODE_TGZ}"
         echo "Downloading Node from ${METEOR_NODE_URL}" >&2
-        curl "${METEOR_NODE_URL}" | tar zx --strip-components 1
+        curl -L "${METEOR_NODE_URL}" | tar zx --strip-components 1
     else
         return 1
     fi
