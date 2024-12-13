@@ -25,8 +25,8 @@ if [ "$UNAME" == "Linux" ] ; then
         strip --remove-section=.comment --remove-section=.note $1
     }
 elif [ "$UNAME" == "Darwin" ] ; then
+    NODE_BUILD_NUMBER=
     if [ "$ARCH" != "arm64" ] ; then
-      NODE_BUILD_NUMBER=
       SYSCTL_64BIT=$(sysctl -n hw.cpu64bit_capable 2>/dev/null || echo 0)
       if [ "$ARCH" == "i386" -a "1" != "$SYSCTL_64BIT" ] ; then
           # some older macos returns i386 but can run 64 bit binaries.
