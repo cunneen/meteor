@@ -80,15 +80,47 @@ function install_dev_bundle {
         DEV_BUNDLE_URL_ROOT="https://s3.amazonaws.com/com.meteor.static/test/"
     fi
 
+    if [ "${ARCH}" = "aarch64" -o "${ARCH}" = "arm64" ] ; then
+        # Use dev bundle with unofficial ARM64 port of meteor's Nodejs 14.21.4
+        # Left-pad each component of the bundle version to 3-digits, then 
+        #  concatenate e.g. 14.21.4.10 => 014021004010 ; 
+        #  if the first number is 14 and the bundle version is greater than 014021004010
+        #  then we need the unofficial ARM64 port of nodejs v14.21.x.x
+        arrBundleVersion=(${BUNDLE_VERSION//./ })
+        if [ "${arrBundleVersion[0]}" = "14" ] ; then
+            # ensure our bundle version has exactly 4 parts
+            bvLen=${#arrBundleVersion[@]}
+            desiredNumParts=4;
+            if [ $bvLen -lt ${desiredNumParts} ]; then
+                for i in $(seq $(( $bvLen - 1 )) $(( $desiredNumParts - 1 )))  ; do
+                    # this part of the bundle version number wasn't specified, just set it to 000
+                    echo "i:${i}"
+                    arrBundleVersion[${i}]="000"
+                done
+            fi
+            # join the parts back together , each part left-padded with 0's to length 3
+            joined=""
+            for i in ${arrBundleVersion[@]}; do
+                joined="${joined}$(printf %03d $i)"
+            done
+            # compare bundle version - if between 14.21.4.10 and 14.999.999.999
+            if [ $joined -ge "014021004010" ]; then
+                DEV_BUNDLE_URL_ROOT="https://public.juto.com.au/meteor/2.16/"
+            fi
+        fi
+    fi
+
     if [ -f "$SCRIPT_DIR/$TARBALL" ] ; then
         echo "Skipping download and installing kit from $SCRIPT_DIR/$TARBALL" >&2
         tar -xzf "$SCRIPT_DIR/$TARBALL" -C "$BUNDLE_TMPDIR"
     elif [ -n "$SAVE_DEV_BUNDLE_TARBALL" ] ; then
         # URL duplicated in tools/server/target.sh.in
-        curl -# "$DEV_BUNDLE_URL_ROOT$TARBALL" >"$SCRIPT_DIR/$TARBALL"
+        echo "downloading from $DEV_BUNDLE_URL_ROOT$TARBALL  to $SCRIPT_DIR/$TARBALL"
+        curl -L -# "$DEV_BUNDLE_URL_ROOT$TARBALL" >"$SCRIPT_DIR/$TARBALL"
         tar -xzf "$SCRIPT_DIR/$TARBALL" -C "$BUNDLE_TMPDIR"
     else
-        curl -# "$DEV_BUNDLE_URL_ROOT$TARBALL" | tar -xzf - -C "$BUNDLE_TMPDIR"
+        echo "downloading from $DEV_BUNDLE_URL_ROOT$TARBALL ..."
+        curl -L -# "$DEV_BUNDLE_URL_ROOT$TARBALL" | tar -xzf - -C "$BUNDLE_TMPDIR"
     fi
 
     test -x "${BUNDLE_TMPDIR}/bin/node" # bomb out if it didn't work, eg no net
