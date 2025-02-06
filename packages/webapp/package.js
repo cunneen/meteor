@@ -4,7 +4,7 @@ Package.describe({
 });
 
 Npm.depends({
-  "cookie-parser": "1.4.6",
+  "cookie-parser": "1.4.7",
   express: "5.0.1",
   "@types/express": "5.0.0",
   compression: "1.7.4",
