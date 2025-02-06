@@ -7,7 +7,7 @@ Npm.depends({
   "cookie-parser": "1.4.6",
   express: "5.0.1",
   "@types/express": "5.0.0",
-  compression: "1.7.4",
+  compression: "1.7.5",
   errorhandler: "1.5.1",
   parseurl: "1.3.3",
   send: "1.1.0",
