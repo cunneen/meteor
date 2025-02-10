@@ -8,7 +8,7 @@ Package.describe({
 Npm.depends({
   "combined-stream2": "1.1.2",
   "magic-string": "0.25.7",
-  "stream-to-string": "1.2.0",
+  "stream-to-string": "1.2.1",
   "parse5": "4.0.0"
 });
 
