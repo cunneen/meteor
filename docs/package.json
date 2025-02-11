@@ -20,7 +20,7 @@
     "@meteorjs/meteor-hexo-config": "1.0.14",
     "@meteorjs/meteor-theme-hexo": "2.0.8",
     "showdown": "1.9.1",
-    "underscore": "1.13.1"
+    "underscore": "1.13.7"
   },
   "scripts": {
     "list-core-packages": "node ./generators/packages-listing/script.js",

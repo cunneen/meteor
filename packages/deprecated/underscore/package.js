@@ -6,7 +6,7 @@ Package.describe({
 });
 
 Npm.depends({
-  '@types/underscore': '1.11.9',
+  '@types/underscore': '1.13.0',
 });
 Package.onUse(function (api) {
   api.export('_');
