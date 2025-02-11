@@ -7,7 +7,7 @@ Package.describe({
 
 Npm.depends({
   "node-fetch": "2.6.12",
-  "whatwg-fetch": "3.6.17"
+  "whatwg-fetch": "3.6.20"
 });
 
 Package.onUse(function(api) {
