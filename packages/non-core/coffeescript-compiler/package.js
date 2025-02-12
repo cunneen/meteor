@@ -7,7 +7,7 @@ Package.describe({
 });
 
 Npm.depends({
-  'coffeescript': '2.4.1',
+  'coffeescript': '2.7.0',
   'source-map': '0.5.7'
 });
 
