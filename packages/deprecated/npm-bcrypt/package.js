@@ -6,7 +6,7 @@ Package.describe({
 });
 
 Npm.depends({
-  bcryptjs: "2.3.0"
+  bcryptjs: "2.4.3"
 });
 
 Package.onUse(function (api) {
