@@ -7,7 +7,7 @@ Package.describe({
 });
 
 Npm.depends({
-  "@wry/context": "0.4.4"
+  "@wry/context": "0.7.4"
 });
 
 Package.onUse(function(api) {
