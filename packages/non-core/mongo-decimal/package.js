@@ -4,7 +4,7 @@ Package.describe({
 });
 
 Npm.depends({
-  "decimal.js": "10.3.1"
+  "decimal.js": "10.6.0"
 });
 
 Package.onUse(function (api) {
