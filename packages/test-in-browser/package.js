@@ -5,7 +5,7 @@ Package.describe({
 });
 
 Npm.depends({
-  'bootstrap': '4.3.1',
+  'bootstrap': '4.6.2',
 });
 
 Package.onUse(function (api) {
