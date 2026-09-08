@@ -37,7 +37,7 @@ Package.onUse(api => {
 });
 
 Npm.depends({
-  'body-parser': '1.19.0',
+  'body-parser': '1.20.8',
 });
 
 Package.onTest(api => {
